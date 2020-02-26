@@ -1,0 +1,47 @@
+## 面向对象设计
+
+
+mapper对应数据库中表的查询，有几个表就对应几个mapper
+
+
+controller只做service的组装，不包含业务逻辑
+
+
+mapper.xml中的sql语句返回对象，满足面向对象设计
+
+
+## mybatis动态sql
+
+
+## mybatis映射
+
+
+### select
+
+
+````xml
+<select id="selectPerson" parameterType="java.lang.Integer" resultType="com.entity.Person">
+
+SELECT * FROM tb_person WHERE id=#{id} 
+ 
+ </select>
+````
+
+id :  在命名空间中的唯一标识符，可以用来引用这条语句
+
+
+parameterType : 传入这条语句的参数类型
+
+
+resultType : 从这条语句返回的参数类型，如果是集合应该设置为集合包含的类型而不是集合本身，不可以和resultMap一起使用
+
+
+reusltMap : 结果集映射，不能和resulType一起使用
+
+
+### insert,update,delete
+
+
+````xml
+<insert> 
+````
