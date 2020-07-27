@@ -1,44 +1,49 @@
-# 646. 最长对数链
-## https://leetcode-cn.com/problems/maximum-length-of-pair-chain/
+# 452. 用最少数量的箭引爆气球
+## https://leetcode-cn.com/problems/minimum-number-of-arrows-to-burst-balloons/
 ### 题目描述：  
-	给出 n 个数对。 在每一个数对中，第一个数字总是比第二个数字小。
+	在二维空间中有许多球形的气球。对于每个气球，提供的输入是水平方向上，气球直径的开始和结束坐标。由于它是水平的，所以y坐标并不重要，因此只要知道开始和结束的x坐标就足够了。开始坐标总是小于结束坐标。平面内最多存在104个气球。
 
-	现在，我们定义一种跟随关系，当且仅当 b < c 时，数对(c, d) 才可以跟在 (a, b) 后面。我们用这种形式来构造一个数对链。
+	一支弓箭可以沿着x轴从不同点完全垂直地射出。在坐标x处射出一支箭，若有一个气球的直径的开始和结束坐标为 xstart，xend， 且满足  xstart ≤ x ≤ xend，则该气球会被引爆。可以射出的弓箭的数量没有限制。 弓箭一旦被射出之后，可以无限地前进。我们想找到使得所有气球全部被引爆，所需的弓箭的最小数量。
 
-	给定一个对数集合，找出能够形成的最长数对链的长度。你不需要用到所有的数对，你可以以任何顺序选择其中的一些数对来构造。
+	Example:
 
-	示例 :
+	输入:
+	[[10,16], [2,8], [1,6], [7,12]]
 
-	输入: [[1,2], [2,3], [3,4]]
-	输出: 2
-	解释: 最长的数对链是 [1,2] -> [3,4]
-### 最长上升子序列、无重复子区间  
+	输出:
+	2
+
+	解释:
+	对于该样例，我们可以在x = 6（射爆[2,8],[1,6]两个气球）和 x = 11（射爆另外两个气球）。
+### 最长上升子序列、无重复子区间、对场对数链  
 		该问题很容易转换成无重叠子区间问题
 
 ### 代码：
-	public int findLongestChain(int[][] pairs) {
-        if (pairs == null || pairs.length == 0) return 0;
-        int[] dp = new int[pairs.length];
+    public int findMinArrowShots(int[][] points) {
+        if (points == null || points.length == 0) return 0;
+        int[] dp = new int[points.length];
         int max = 1;
         dp[0] = 1;
-        Arrays.sort(pairs, new Comparator<int[]>() {
+        Arrays.sort(points, new Comparator<int[]>(){
             public int compare(int[] a, int[] b) {
-                if(a[0] == b[0]) {
+                if (a[0] == b[0]) {
                     return a[1] - b[1];
                 }
                 return a[0] - b[0];
             }
         });
-        for (int i = 1; i < pairs.length; i ++) {
+
+        for (int i = 1; i < points.length; i ++) {
             dp[i] = 1;
             for (int j = 0; j < i; j ++) {
-                if (pairs[i][0] > pairs[j][1]) {
+                if (points[i][0] > points[j][1]) {
                     dp[i] = dp[i] > dp[j] ? dp[i] : dp[j] + 1;
                     max = max > dp[i] ? max : dp[i];
                 }
             }
         }
         return max;
+
     }
 
 
